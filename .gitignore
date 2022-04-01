@@ -1,0 +1,27 @@
+# local maching
+.DS_Store
+.vscode
+
+# needed for stack
+.stack-work/
+*~
+placid-server.cabal
+dist-newstyle
+
+# Auth key
+keys/*
+!keys/.git-keep
+
+# Local config
+local.*.conf
+local.conf
+local.*
+*.local
+.env
+migrations/liquibase.properties
+migrations/liquibase.local.properties
+
+dump.sql
+.cache_ggshield
+/dumps/
+

@@ -1,0 +1,73 @@
+name:                haskell-client-generated
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/an-death/haskell-client-generated#readme
+license:             BSD3
+license-file:        LICENSE
+author:              as
+maintainer:          opiumofthepeople@yandex.ru
+copyright:
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+
+Flag UseKatip
+  Description: Use the katip package to provide logging (if false, use the default monad-logger package)
+  Default:     False
+  Manual:      True
+
+
+library
+  hs-source-dirs:      lib
+  ghc-options: -Wall -funbox-strict-fields
+  default-language:    Haskell2010
+  exposed-modules:
+    Network.Integrated.HTTP.Client
+    Network.Integrated.HTTP.Core
+    Network.Integrated.HTTP.Auth
+    Network.Integrated.HTTP.MimeTypes
+    Network.Integrated.HTTP.Logging
+
+  if flag(UseKatip)
+      build-depends: katip >=0.8 && < 1.0
+      other-modules: Network.Integrated.HTTP.LoggingKatip
+      cpp-options: -DUSE_KATIP
+  else
+      build-depends: monad-logger >=0.3 && <0.4
+      other-modules:
+        Network.Integrated.HTTP.LoggingMonadLogger
+      cpp-options: -DUSE_MONAD_LOGGER
+
+  build-depends:
+      aeson >=1.0 && <2.0
+    , base >=4.7 && <5.0
+    , base64-bytestring >1.0 && <2.0
+    , bytestring >=0.10.0 && <0.11
+    , case-insensitive
+    , containers >=0.5.0.0 && <0.8
+    , deepseq >= 1.4 && <1.6
+    , exceptions >= 0.4
+    , http-api-data >= 0.3.4 && <0.5
+    , http-client >=0.5 && <0.7
+    , http-client-tls
+    , http-media >= 0.4 && < 0.9
+    , http-types >=0.8 && <0.13
+    , iso8601-time >=0.1.3 && <0.2.0
+    , microlens >= 0.4.3 && <0.5
+    , mtl >=2.2.1
+    , network >=2.6.2 && <3.9
+    , random >=1.1
+    , safe-exceptions <0.2
+    , text >=0.11 && <1.3
+    , time >=1.5
+    , transformers >=0.4.0.0
+    , unordered-containers
+    , vector >=0.10.9 && <0.13
+
+
+source-repository head
+  type:     git
+  location: https://github.com/an-death/haskell-client-generated
