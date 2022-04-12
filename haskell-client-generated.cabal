@@ -25,11 +25,13 @@ library
   ghc-options: -Wall -funbox-strict-fields
   default-language:    Haskell2010
   exposed-modules:
+    Network.Integrated.HTTP.DispatchClient
     Network.Integrated.HTTP.Client
     Network.Integrated.HTTP.Core
     Network.Integrated.HTTP.Auth
     Network.Integrated.HTTP.MimeTypes
     Network.Integrated.HTTP.Logging
+
 
   if flag(UseKatip)
       build-depends: katip >=0.8 && < 1.0
