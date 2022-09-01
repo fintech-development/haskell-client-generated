@@ -96,7 +96,7 @@ newConfig host = do
   return $
     ClientConfig
       { configHost = host,
-        configUserAgent = "placid/0.1.0.0",
+        configUserAgent = "gauss/0.1.0.0",
         configLogExecWithContext = runDefaultLogExecWithContext,
         configLogContext = logCxt,
         configAuthMethods = [],
