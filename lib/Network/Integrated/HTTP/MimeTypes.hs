@@ -47,6 +47,8 @@ class MimeType mtype => Produces req mtype
 
 data MimeJSON = MimeJSON deriving (P.Typeable)
 
+data MimeVndApiJSON = MimeVndApiJSON deriving (P.Typeable)
+
 data MimeXML = MimeXML deriving (P.Typeable)
 
 data MimePlainText = MimePlainText deriving (P.Typeable)
@@ -93,6 +95,10 @@ class P.Typeable mtype => MimeType mtype where
 instance MimeType MimeJSON where
   mimeType _ = Just $ P.fromString "application/json"
 
+-- | @application/vnd.api+json; charset=utf-8@
+instance MimeType MimeVndApiJSON where
+  mimeType _ = Just $ P.fromString "application/vnd.api+json"
+
 -- | @application/xml; charset=utf-8@
 instance MimeType MimeXML where
   mimeType _ = Just $ P.fromString "application/xml"
@@ -134,6 +140,9 @@ mimeRenderDefaultMultipartFormData = BL.fromStrict . T.encodeUtf8 . WH.toQueryPa
 
 -- | `A.encode`
 instance A.ToJSON a => MimeRender MimeJSON a where mimeRender _ = A.encode
+
+-- | `A.encode` # same JSON input/output
+instance A.ToJSON a => MimeRender MimeVndApiJSON a where mimeRender _ = A.encode
 
 -- | @WH.urlEncodeAsForm@
 instance WH.ToForm a => MimeRender MimeFormUrlEncoded a where mimeRender _ = WH.urlEncodeAsForm
@@ -188,6 +197,9 @@ class MimeType mtype => MimeUnrender mtype o where
 
 -- | @A.eitherDecode@
 instance A.FromJSON a => MimeUnrender MimeJSON a where mimeUnrender _ = A.eitherDecode
+
+-- | @A.eitherDecode@
+instance A.FromJSON a => MimeUnrender MimeVndApiJSON a where mimeUnrender _ = A.eitherDecode
 
 -- | @P.left T.unpack . WH.urlDecodeAsForm@
 instance WH.FromForm a => MimeUnrender MimeFormUrlEncoded a where mimeUnrender _ = P.left T.unpack . WH.urlDecodeAsForm
