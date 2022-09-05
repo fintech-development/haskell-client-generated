@@ -24,7 +24,7 @@ import qualified Data.Text.Encoding as T
 import qualified Network.HTTP.Media as ME
 import qualified Web.FormUrlEncoded as WH
 import qualified Web.HttpApiData as WH
-import Prelude (Bool (..), Char, Double, FilePath, Float, Int, Integer, Maybe (..), String, fmap, mempty, undefined, ($), (.), (<$>), (<*>))
+import Prelude (Bool (..), Char, Double, FilePath, Float, Int, Integer, Maybe (..), String, fmap, mempty, undefined, ($), (.), (<$>), (<*>), (<>))
 import qualified Prelude as P
 
 -- * ContentType MimeType
@@ -54,6 +54,8 @@ data MimeXML = MimeXML deriving (P.Typeable)
 data MimePlainText = MimePlainText deriving (P.Typeable)
 
 data MimeFormUrlEncoded = MimeFormUrlEncoded deriving (P.Typeable)
+
+data MimeUrlEncodedBody
 
 data MimeMultipartFormData = MimeMultipartFormData deriving (P.Typeable)
 
@@ -105,6 +107,10 @@ instance MimeType MimeXML where
 
 -- | @application/x-www-form-urlencoded@
 instance MimeType MimeFormUrlEncoded where
+  mimeType _ = Just $ P.fromString "application/x-www-form-urlencoded"
+
+-- | @application/x-www-form-urlencoded@
+instance MimeType MimeUrlEncodedBody where
   mimeType _ = Just $ P.fromString "application/x-www-form-urlencoded"
 
 -- | @multipart/form-data@
@@ -182,6 +188,8 @@ instance MimeRender MimeMultipartFormData Integer where mimeRender _ = mimeRende
 instance MimeRender MimeMultipartFormData String where mimeRender _ = mimeRenderDefaultMultipartFormData
 
 instance MimeRender MimeMultipartFormData T.Text where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+instance MimeRender MimeUrlEncodedBody [(B.ByteString, B.ByteString)] where mimeRender _ = BCL.fromStrict . B.intercalate "&" . P.map (\(k, v) -> k <> "=" <> v)
 
 -- | @P.Right . P.const NoContent@
 instance MimeRender MimeNoContent NoContent where mimeRender _ = P.const BCL.empty
