@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -7,6 +8,7 @@
 
 module Network.Integrated.HTTP.Client where
 
+import Control.Exception.Safe (Exception)
 import qualified Control.Exception.Safe as E
 import qualified Control.Monad as P
 import qualified Control.Monad.IO.Class as P
@@ -68,7 +70,7 @@ data MimeError = MimeError
     -- | http response
     mimeErrorResponse :: NH.Response BCL.ByteString
   }
-  deriving (Show)
+  deriving (Show, Exception)
 
 -- | send a request returning the 'MimeResult'
 dispatchMime ::
