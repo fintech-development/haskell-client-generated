@@ -610,3 +610,11 @@ _showBinaryBase64 = T.decodeUtf8 . BL.toStrict . BL64.encode . unBinary
 type Lens_' s a = Lens_ s s a a
 
 type Lens_ s t a b = forall (f :: K.Type -> K.Type). Functor f => (a -> f b) -> s -> f t
+
+-- * Text helpers
+
+decodeLazyUtf8 :: BCL.ByteString -> T.Text
+decodeLazyUtf8 = T.decodeUtf8 . BCL.toStrict
+
+encodeLazyUtf8 :: T.Text -> BCL.ByteString
+encodeLazyUtf8 = BCL.fromStrict . T.encodeUtf8
