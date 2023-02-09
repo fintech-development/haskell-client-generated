@@ -44,10 +44,10 @@ library
       cpp-options: -DUSE_MONAD_LOGGER
 
   build-depends:
-      aeson >=1.0 && <2.0
+      aeson >=2.0
     , base >=4.7 && <5.0
     , base64-bytestring >1.0 && <2.0
-    , bytestring >=0.10.0 && <0.11
+    , bytestring >=0.11.0
     , case-insensitive
     , containers >=0.5.0.0 && <0.8
     , deepseq >= 1.4 && <1.6
